@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbh2vc12txbo7"]
+
+[ext_resource type="Script" path="res://entities/player.gd" id="1_kmiig"]
+[ext_resource type="Texture2D" uid="uid://bpsk6dyna7ep8" path="res://art/pixel_ship_blue.png" id="2_jk1wg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jh485"]
+size = Vector2(54, 59)
+
+[node name="Player" type="Area2D"]
+script = ExtResource("1_kmiig")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_jk1wg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9.5)
+shape = SubResource("RectangleShape2D_jh485")
