@@ -7,11 +7,13 @@ ____
 # TODO
 
 ## Vassily
+- [x] Make notes branch good
 - [ ] Make ship movement good
-- [ ] Make notes branch good
-- [ ] Whatever else
+- [ ] Make some asteroids
 
 ## Chase
-- [ ] Learn game art
-- [ ] Find a good style
-- [ ] Start working on making ships, asteroids, possibly other stuff
+- [ in progress ] Learn game art
+- [ in progress ] Find a good style
+- [x] Draw ships
+- [ ] Draw more ships (CRUISER and BOGEY)
+- [ ] Draw asteroids

@@ -16,3 +16,7 @@
 
 #### Chase
 * 
+
+___
+
+### Game Notes
