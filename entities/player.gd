@@ -1,44 +1,64 @@
 extends Node2D
 
-# Constants
-const movement_speed = 600;
+# General constants
 const rotation_speed = 5;
 
-# Force calculations
-# TODO: this
-const ship_mass = 500;
+# Force constants
+const thruster_scalar = 200;
+const brake_scalar = 300;	# Almost like reverse thrusters
+
+# Global variables
+var curr_velocity;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	curr_velocity = Vector2.ZERO;
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	# NOTE: probably will have to tell chase that the ships will have 
-	# a turret on top of a ship
 	
-	var velocity = findNewVelocity();
 	var rotate_direction = findNewRotation();
-	
 	# New rotation
 	self.rotation += rotate_direction * rotation_speed * delta;
 	
-	# New position based on current velocity & rotation
-	var x = velocity * movement_speed * cos(self.rotation);
-	var y = velocity * movement_speed * sin(self.rotation);
+	
+	var velocity = findNewVelocity(curr_velocity);	# 2D Vector
+	curr_velocity = velocity;
+	
+	# New position based on velocity 
+	var x = velocity[0];
+	var y = velocity[1];
 	self.position += Vector2(x * delta, y * delta);
 
-# Calculate new velocity
-func findNewVelocity():
-	var velocity = 0;
+# Calculate new velocity using force vectors
+func findNewVelocity(curr_velocity):
+	var velocity = curr_velocity;
 	
-	# TODO: this should be force-based
-	if Input.is_action_pressed("accelerate"):
-		velocity += 1;
-	if Input.is_action_pressed("brake"):
-		velocity -= 1;
+	# Calculate all forces acting upon ship, put result in a 2d vector
+	var force = findSumForce(curr_velocity);
+	
+	# Add/subtract to current velocity using forces + ship mass
+	velocity += force / self.mass;
 	
 	return velocity;
+
+
+func findSumForce(curr_velocity):
+	var force = Vector2.ZERO;
+	
+	# Ship thrusters (TODO: decrease effect if ship is fast enough)
+	if Input.is_action_pressed("accelerate"):
+		force += Vector2(thruster_scalar * cos(self.rotation), 
+						thruster_scalar * sin(self.rotation)); 
+	
+	# Ship brakes
+	if Input.is_action_pressed("brake"):
+		pass
+	
+	# TODO: Other stuff (e.g. bumping into asteroids)
+	
+	return force;
 
 func findNewRotation():
 	var rotate_direction = 0;
