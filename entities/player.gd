@@ -1,20 +1,24 @@
 extends Node2D
 
 # General constants
-const torque = 20000;
+const rotate_speed = 0.07;
 
 # Force constants
 const thrust = Vector2(2500, 0);
 const brake_scalar = 300;	# Almost like reverse thrusters
 
 func _integrate_forces(state):
-	if Input.is_action_pressed("accelerate"):
-		state.apply_force(thrust.rotated(self.rotation))
-	else:
-		state.apply_force(Vector2())
+	# Rotation
 	var rotation_direction = findNewRotation();
-	state.apply_torque(rotation_direction * torque)
-
+	self.rotation += rotation_direction * rotate_speed;
+	
+	# TODO: implement max speed (for thrusters)
+	if Input.is_action_pressed("accelerate"):
+		state.apply_force(thrust.rotated(self.rotation));
+	else:
+		state.apply_force(Vector2());
+	
+	# TODO: add braking using lin damp
 
 func findNewRotation():
 	var rotate_direction = 0;
