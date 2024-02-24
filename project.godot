@@ -23,7 +23,8 @@ window/size/viewport_height=640
 [file_customization]
 
 folder_colors={
-"res://art/": "red"
+"res://art/": "orange",
+"res://entities/": "purple"
 }
 
 [input]
