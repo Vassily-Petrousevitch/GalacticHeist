@@ -1,44 +1,34 @@
 extends Node2D
 
-# Constants
-const movement_speed = 600;
-const rotation_speed = 5;
+# General constants
+const rotate_speed = 0.07;
 
-# Force calculations
-# TODO: this
-const ship_mass = 500;
+# Force constants
+const thrust = Vector2(5000, 0);
+const thrust_damp_scalar = 0.001;
+const min_brake = 1;	
+const max_brake = 1000;
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func _integrate_forces(state):
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	# NOTE: probably will have to tell chase that the ships will have 
-	# a turret on top of a ship
+	var rotation_direction = findNewRotation();
+	self.rotation += rotation_direction * rotate_speed;
 	
-	var velocity = findNewVelocity();
-	var rotate_direction = findNewRotation();
-	
-	# New rotation
-	self.rotation += rotate_direction * rotation_speed * delta;
-	
-	# New position based on current velocity & rotation
-	var x = velocity * movement_speed * cos(self.rotation);
-	var y = velocity * movement_speed * sin(self.rotation);
-	self.position += Vector2(x * delta, y * delta);
-
-# Calculate new velocity
-func findNewVelocity():
-	var velocity = 0;
-	
-	# TODO: this should be force-based
 	if Input.is_action_pressed("accelerate"):
-		velocity += 1;
-	if Input.is_action_pressed("brake"):
-		velocity -= 1;
+		# Damps based on current velocity
+		self.linear_damp = generateLinDamp();
+		state.apply_force(thrust.rotated(self.rotation));
+	else:
+		self.linear_damp = 0;	# or something else
+		state.apply_force(Vector2());
 	
-	return velocity;
+	if Input.is_action_pressed("brake"):
+		self.linear_damp = clamp(generateLinDamp(), min_brake, max_brake);
+
+# returns c * thrust_damp_scalar, where c^2 = velocity.x^2 + velocity.y^2
+func generateLinDamp():
+	return pow(pow(self.linear_velocity.x, 2) 
+				+ pow(self.linear_velocity.y, 2), 0.5) * thrust_damp_scalar;
 
 func findNewRotation():
 	var rotate_direction = 0;
