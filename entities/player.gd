@@ -5,7 +5,8 @@ const rotate_speed = 0.07;
 
 # Force constants
 const thrust = Vector2(5000, 0);
-const thrust_damp_scalar = 0.001;
+const thrust_damp_scalar = 0.01;
+# Probably need a "big" thrust damp scalar past a certain velocity
 const min_brake = 1;	
 const max_brake = 1000;
 
@@ -14,12 +15,13 @@ func _integrate_forces(state):
 		# Damps based on current velocity
 		self.linear_damp = generateLinDamp();
 		state.apply_force(thrust.rotated(self.rotation));
-	else:
-		self.linear_damp = 0;	# or something else
-		state.apply_force(Vector2());
-	
+		
 	if Input.is_action_pressed("brake"):
 		self.linear_damp = clamp(generateLinDamp(), min_brake, max_brake);
+		
+	else:
+		self.linear_damp = 0;
+		state.apply_force(Vector2());
 		
 	self.rotation += findNewRotation() * rotate_speed;
 
