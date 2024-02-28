@@ -9,7 +9,6 @@ size = Vector2(54, 59)
 [node name="Player" type="RigidBody2D"]
 mass = 5.0
 gravity_scale = 0.0
-linear_damp = 0.1
 script = ExtResource("1_kmiig")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
