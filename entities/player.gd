@@ -9,11 +9,7 @@ const thrust_damp_scalar = 0.001;
 const min_brake = 1;	
 const max_brake = 1000;
 
-func _integrate_forces(state):
-
-	var rotation_direction = findNewRotation();
-	self.rotation += rotation_direction * rotate_speed;
-	
+func _integrate_forces(state):	
 	if Input.is_action_pressed("accelerate"):
 		# Damps based on current velocity
 		self.linear_damp = generateLinDamp();
@@ -24,6 +20,8 @@ func _integrate_forces(state):
 	
 	if Input.is_action_pressed("brake"):
 		self.linear_damp = clamp(generateLinDamp(), min_brake, max_brake);
+		
+	self.rotation += findNewRotation() * rotate_speed;
 
 # returns c * thrust_damp_scalar, where c^2 = velocity.x^2 + velocity.y^2
 func generateLinDamp():
