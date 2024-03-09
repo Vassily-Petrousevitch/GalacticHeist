@@ -3,32 +3,26 @@ extends Node2D
 # General constants
 const rotate_speed = 0.07;
 
-# Force constants
-const thrust = Vector2(5000, 0);
-const thrust_damp_scalar = 0.01;
-# Probably need a "big" thrust damp scalar past a certain velocity
-const min_brake = 1;	
-const max_brake = 1000;
+# Velocity & accel
+var velocity = Vector2.ZERO
+var max_velocity = Vector2(1000, 1000)
+var accel_h = 10
+var accel_v = 10
 
-func _integrate_forces(state):	
+func _process(delta):
+	self.rotation = fmod(self.rotation + findNewRotation() * rotate_speed, 2 * PI)
+	
 	if Input.is_action_pressed("accelerate"):
-		# Damps based on current velocity
-		self.linear_damp = generateLinDamp();
-		state.apply_force(thrust.rotated(self.rotation));
+		var new_speed = Vector2(accel_h * cos(self.rotation), accel_v * sin(self.rotation))
 		
-	if Input.is_action_pressed("brake"):
-		self.linear_damp = clamp(generateLinDamp(), min_brake, max_brake);
+		if (abs(new_speed.x + velocity.x) < max_velocity.x):
+			velocity.x += new_speed.x
+			
+		if (abs(new_speed.y + velocity.y) < max_velocity.y):
+			velocity.y += new_speed.y
 		
-	else:
-		self.linear_damp = 0;
-		state.apply_force(Vector2());
-		
-	self.rotation += findNewRotation() * rotate_speed;
-
-# returns c * thrust_damp_scalar, where c^2 = velocity.x^2 + velocity.y^2
-func generateLinDamp():
-	return pow(pow(self.linear_velocity.x, 2) 
-				+ pow(self.linear_velocity.y, 2), 0.5) * thrust_damp_scalar;
+	print(velocity)
+	position += velocity * delta
 
 func findNewRotation():
 	var rotate_direction = 0;
