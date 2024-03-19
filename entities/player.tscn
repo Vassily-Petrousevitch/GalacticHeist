@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dbh2vc12txbo7"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_kmiig"]
-[ext_resource type="Texture2D" uid="uid://bpsk6dyna7ep8" path="res://art/pixel_ship_blue.png" id="2_jk1wg"]
+[ext_resource type="Texture2D" uid="uid://n2l6gnif0077" path="res://Assets/Ships/ship2_c2.png" id="2_i7id4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jh485"]
 size = Vector2(54, 59)
@@ -10,8 +10,7 @@ size = Vector2(54, 59)
 script = ExtResource("1_kmiig")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_jk1wg")
+texture = ExtResource("2_i7id4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-10, 0)
