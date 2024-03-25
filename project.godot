@@ -23,7 +23,7 @@ window/size/viewport_height=640
 [file_customization]
 
 folder_colors={
-"res://art/": "orange",
+"res://Assets/": "red",
 "res://entities/": "purple"
 }
 
