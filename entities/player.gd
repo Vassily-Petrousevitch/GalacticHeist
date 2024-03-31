@@ -2,23 +2,31 @@ extends CharacterBody2D
 
 # Ship movement parameters
 const rotate_speed = 0.06;
-var max_velocity = Vector2(500, 0)
-var accel = 25
-var brake_accel = 0.15
+const max_velocity = Vector2(500, 0)
+const accel = 25
+const brake_accel = 0.15
 
 # Collision parameters
 const ship_bounceback = 0.25
+var stunned = false
 
 func _physics_process(delta):
-	getInput()
-	var bonk = move_and_collide(velocity * delta)
-	if bonk:
-		velocity = velocity.bounce(bonk.get_normal()) * ship_bounceback
-		if bonk.get_collider() is RigidBody2D:
-			bonk.get_collider().apply_central_impulse(-bonk.get_normal() * velocity.length())
+	if not stunned:
+		get_input()
+	var col = move_and_collide(velocity * delta)
+	if col:
+		velocity = velocity.bounce(col.get_normal()) * ship_bounceback
+		get_stunned()
+		if col.get_collider() is RigidBody2D:
+			col.get_collider().apply_central_impulse(-col.get_normal() * velocity.length())
 
 
-func getInput():
+func get_stunned():
+	stunned = true
+	await get_tree().create_timer(0.5).timeout # waits briefly
+	stunned = false
+
+func get_input():
 	setRotation()
 	
 	# Velocity from input
