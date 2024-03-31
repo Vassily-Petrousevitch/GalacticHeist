@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://db6pu7lu7ddjs"]
+[gd_scene load_steps=7 format=3 uid="uid://db6pu7lu7ddjs"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_5so5j"]
 [ext_resource type="Texture2D" uid="uid://df14lh0oc772c" path="res://art/background-black.png" id="1_45t0v"]
 [ext_resource type="PackedScene" uid="uid://dbh2vc12txbo7" path="res://entities/player.tscn" id="1_nlouw"]
+[ext_resource type="PackedScene" uid="uid://cstv4252wpn5f" path="res://entities/asteroid.tscn" id="4_f2xl3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q8n0u"]
 texture = ExtResource("1_45t0v")
@@ -657,3 +658,6 @@ scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
+
+[node name="Asteroid" parent="." instance=ExtResource("4_f2xl3")]
+position = Vector2(411, 311)
