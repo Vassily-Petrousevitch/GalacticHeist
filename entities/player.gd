@@ -23,8 +23,10 @@ func _physics_process(delta):
 
 func get_stunned():
 	stunned = true
+	self.modulate = Color("4d4d4d")
 	await get_tree().create_timer(0.5).timeout # waits briefly
 	stunned = false
+	self.modulate = Color("fff")
 
 func get_input():
 	setRotation()
