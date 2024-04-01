@@ -13,5 +13,7 @@ func _process(delta):
 
 func _on_body_entered(body):
 	if body.name == "Player":
-		body.velocity = self.linear_velocity
-		# TODO: stun the player upon collision
+		body.velocity = self.linear_velocity * 2
+		if body.has_method("get_stunned"):
+			body.get_stunned()
+			
