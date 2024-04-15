@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://n2l6gnif0077" path="res://Assets/Ships/ship2_c2.png" id="2_i7id4"]
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_kmiig")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -12,6 +12,7 @@ var stunned = false
 
 # Bullet parameters
 const bullet_scene = preload("res://entities/bullet.tscn")
+const bullet_speed = 2000
 const bullet_timeout = 0.5		# seconds
 
 
@@ -21,12 +22,11 @@ func _physics_process(delta):
 	var col = move_and_collide(velocity * delta)
 	if col:
 		velocity = velocity.bounce(col.get_normal()) * ship_bounceback
-		get_stunned()
-		if col.get_collider() is RigidBody2D:
-			col.get_collider().apply_central_impulse(-col.get_normal() * velocity.length())
+		get_stunned_idiot()
+		
 
 
-func get_stunned():
+func get_stunned_idiot():
 	stunned = true
 	self.modulate = Color("4d4d4d")		# overlay with a gray filter
 	await get_tree().create_timer(0.5).timeout # waits briefly
@@ -34,9 +34,11 @@ func get_stunned():
 	self.modulate = Color("fff")
 
 func shoot_bullet():
+	var mouse_pos = get_global_mouse_position()
+	
 	var bullet = bullet_scene.instantiate()
-	bullet.velocity = Vector2(10, 10)
-	bullet.position = get_global_position() + Vector2(15, 15)
+	bullet.velocity = global_position.direction_to(mouse_pos) * bullet_speed
+	bullet.position = get_global_position()
 	get_parent().add_child(bullet)
 
 func get_input():
