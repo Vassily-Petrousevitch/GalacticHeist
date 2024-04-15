@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://butwryfukovng" path="res://Assets/Asteroids/asteroid_2.png" id="2_6tvht"]
 
 [node name="Asteroid" type="RigidBody2D"]
+collision_mask = 7
+mass = 100.0
 gravity_scale = 0.0
 max_contacts_reported = 5
 contact_monitor = true
