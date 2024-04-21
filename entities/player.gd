@@ -16,8 +16,8 @@ const bullet_speed = 2000
 const bullet_timeout = 0.2		# seconds
 var bullet_on_cooldown = false
 
-# Mouse is hovering over a "rope-able object" e.g. Asteroids, Puffins
-var mouse_hovering = null
+# Rope parameters
+var rope_piece = preload("res://entities/rope_piece.tscn")
 
 func _physics_process(delta):
 	if not stunned:
@@ -26,13 +26,6 @@ func _physics_process(delta):
 	if col:
 		velocity = velocity.bounce(col.get_normal()) * ship_bounceback
 		get_stunned_idiot()
-	
-	# Raycast to detect nearby "rope-able" objects
-	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(self.position, Vector2(50, 100), 0xFFFFFFFF, [self])
-	var result = space_state.intersect_ray(query)
-	if result:
-		print("hit at point: ", result.position, result.collider)
 	
 
 func get_stunned_idiot():
@@ -65,6 +58,31 @@ func get_input():
 		
 	if Input.is_action_pressed("shoot") && !bullet_on_cooldown:
 		shoot_bullet()
+		
+	if Input.is_action_just_pressed("rope"):
+		rope_object()
+		
+func rope_object():
+	# Raycast to detect nearby "rope-able" objects
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(self.position, get_global_mouse_position(), 0xFFFFFFFF, [self])
+	var result = space_state.intersect_ray(query)
+	# Check whether an object was selected + is "selectable"
+	if result && result.collider.input_pickable:
+		print("Collider is pickable")
+		var object = result.collider
+		
+		# Make a rope piece on top of the player
+		var rope = rope_piece.instantiate()
+		rope.position = self.position
+		get_parent().add_child(rope)
+		
+		# Attach rope to player using PinJoint
+		var joint = PinJoint2D.new()
+		joint.position = self.position
+		joint.node_a = self.get_path()
+		joint.node_b = rope.get_path()
+		get_parent().add_child(joint)
 
 func setRotation():
 	var rotate_direction = 0;
