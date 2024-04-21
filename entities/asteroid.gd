@@ -1,6 +1,8 @@
 extends RigidBody2D
 
+# Constants
 const asteroid_player_impulse = 5
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,3 +20,4 @@ func _on_body_entered(body):
 		if body.has_method("get_stunned_idiot"):
 			body.get_stunned_idiot()
 			
+
