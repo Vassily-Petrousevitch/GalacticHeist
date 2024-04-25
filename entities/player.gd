@@ -67,14 +67,17 @@ func rope_object():
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsRayQueryParameters2D.create(self.position, get_global_mouse_position(), 0xFFFFFFFF, [self])
 	var result = space_state.intersect_ray(query)
-	# Check whether an object was selected + is "selectable"
+	
+	# Check whether an object was selected + is pickable
 	if result && result.collider.input_pickable:
-		print("Collider is pickable")
 		var object = result.collider
 		
 		# Make a rope piece on top of the player
 		var rope = rope_piece.instantiate()
 		rope.position = self.position
+		# adjust rotation of rope to point to selected object
+		rope.rotation = (self.position - object.position).angle() + PI
+		rope.scale.x = (self.position - object.position).length() / 100
 		get_parent().add_child(rope)
 		
 		# Attach rope to player using PinJoint
@@ -83,6 +86,17 @@ func rope_object():
 		joint.node_a = self.get_path()
 		joint.node_b = rope.get_path()
 		get_parent().add_child(joint)
+		
+		# Attach rope to target object using PinJoint
+		var joint2 = PinJoint2D.new()
+		joint2.position = object.position
+		joint2.node_a = object.get_path()
+		joint2.node_b = rope.get_path()
+		get_parent().add_child(joint2)
+		
+		# Prevent the wiggles
+		object.inertia = 5
+		object.angular_damp = 10000
 
 func setRotation():
 	var rotate_direction = 0;
