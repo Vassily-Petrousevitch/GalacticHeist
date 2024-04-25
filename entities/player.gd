@@ -94,9 +94,10 @@ func rope_object():
 		joint2.node_b = rope.get_path()
 		get_parent().add_child(joint2)
 		
-		# Prevent the wiggles
-		object.inertia = 5
-		object.angular_damp = 10000
+		# Wiggle prevention
+		object.linear_damp = 100000
+		object.angular_damp = 100000
+		
 
 func setRotation():
 	var rotate_direction = 0;
