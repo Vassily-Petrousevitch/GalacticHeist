@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://daprtsy1d6lgg"]
+
+[ext_resource type="Texture2D" uid="uid://rgmuy718fqmb" path="res://Assets/Macguffins/mag_puffin_1.png" id="1_271cp"]
+
+[node name="Puffin" type="RigidBody2D"]
+gravity_scale = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(344, 167)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_271cp")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(344, 167)
+scale = Vector2(0.3, 0.3)
+polygon = PackedVector2Array(41, -104.8, 41, -103.4, 75, -90.4, 75, -89, 87, -80, 87, -77.5, 102.3, -48, 99, -48, 2, 91, 0.399994, 91, -14.8, 94, -48, 94, -48, 92.7, -79, 87.7, -79, 86.3, -109, 73.3, -109, 71.8, -128, 51.8, -128, 50.5, -127.3, 49, -126.5, 49, -111.5, -1, -109.8, -1, -6.8, -105, -4.4, -105, -1, -106.4, -1, -108.2)
