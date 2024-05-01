@@ -64,7 +64,6 @@ func get_input():
 		
 	if Input.is_action_just_pressed("rope"):
 		if (!roped_object):
-			print(roped_object)
 			rope_object()
 		else:
 			destroy_rope()
