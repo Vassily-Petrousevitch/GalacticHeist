@@ -18,6 +18,9 @@ var bullet_on_cooldown = false
 
 # Rope parameters
 var rope_piece = preload("res://entities/rope_piece.tscn")
+var roped_object = null
+var rope_node = null
+var joints = []
 
 func _physics_process(delta):
 	if not stunned:
@@ -60,7 +63,11 @@ func get_input():
 		shoot_bullet()
 		
 	if Input.is_action_just_pressed("rope"):
-		rope_object()
+		if (!roped_object):
+			print(roped_object)
+			rope_object()
+		else:
+			destroy_rope()
 		
 func rope_object():
 	# Raycast to detect nearby "rope-able" objects
@@ -79,6 +86,7 @@ func rope_object():
 		rope.rotation = (self.position - object.position).angle() + PI
 		rope.scale.x = (self.position - object.position).length() / 100
 		get_parent().add_child(rope)
+		rope_node = rope
 		
 		# Attach rope to player using PinJoint
 		var joint = PinJoint2D.new()
@@ -86,6 +94,7 @@ func rope_object():
 		joint.node_a = self.get_path()
 		joint.node_b = rope.get_path()
 		get_parent().add_child(joint)
+		joints.append(joint)
 		
 		# Attach rope to target object using PinJoint
 		var joint2 = PinJoint2D.new()
@@ -93,11 +102,28 @@ func rope_object():
 		joint2.node_a = object.get_path()
 		joint2.node_b = rope.get_path()
 		get_parent().add_child(joint2)
+		joints.append(joint2)
 		
-		# Wiggle prevention
+		# Wiggle prevention (works!!!)
 		object.linear_damp = 100000
 		object.angular_damp = 100000
 		
+		roped_object = object
+		
+
+func destroy_rope():
+	for joint in joints:
+		joint.queue_free()
+	pass
+	rope_node.queue_free()
+	
+	# Take off wiggle prevention so the physics works
+	roped_object.linear_damp = 0
+	roped_object.angular_damp = 0
+	
+	joints = []
+	roped_object = null
+	rope_node = null
 
 func setRotation():
 	var rotate_direction = 0;
