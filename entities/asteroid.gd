@@ -9,10 +9,6 @@ var asteroid_player_impulse = self.mass / 20
 func _ready():
 	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func _on_body_entered(body):
 	if body.name == "Player":
 		body.velocity = self.linear_velocity * asteroid_player_impulse

@@ -7,6 +7,7 @@ const accel = 25
 const brake_accel = 0.15
 
 # Collision parameters
+const ship_weight = 8
 const ship_bounceback = 0.25
 var stunned = false
 
@@ -27,6 +28,10 @@ func _physics_process(delta):
 		get_input()
 	var col = move_and_collide(velocity * delta)
 	if col:
+		# Bounce the asteroid (or whatever the ship ran into)
+		var impulse = -ship_weight * col.get_normal() * velocity.length()
+		col.get_collider().apply_impulse(impulse)
+		# The ship should also get bounced
 		velocity = velocity.bounce(col.get_normal()) * ship_bounceback
 		get_stunned_idiot()
 	
