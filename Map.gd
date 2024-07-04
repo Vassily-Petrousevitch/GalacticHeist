@@ -18,7 +18,7 @@ const small_asteroid_dist = 400
 
 
 func new_asteroid(scale_factor: float):
-	var asteroid = preload("res://entities/asteroid.tscn")
+	var asteroid = preload("res://entities/asteroid/asteroid.tscn")
 	var asteroid_instance = asteroid.instantiate()
 	
 	# Scale down child entities (rigid body scaling is weird)

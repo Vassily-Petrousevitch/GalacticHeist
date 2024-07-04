@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_5so5j"]
 [ext_resource type="Texture2D" uid="uid://df14lh0oc772c" path="res://art/background-black.png" id="1_45t0v"]
-[ext_resource type="PackedScene" uid="uid://dbh2vc12txbo7" path="res://entities/player.tscn" id="1_nlouw"]
+[ext_resource type="PackedScene" uid="uid://dbh2vc12txbo7" path="res://entities/player/player.tscn" id="1_nlouw"]
 [ext_resource type="Script" path="res://Map.gd" id="2_yckvb"]
-[ext_resource type="Script" path="res://pause_menu.gd" id="3_08ve1"]
-[ext_resource type="PackedScene" uid="uid://mie4tsv006u6" path="res://pause_menu.tscn" id="4_h7xul"]
+[ext_resource type="Script" path="res://GUI/pause_menu.gd" id="3_08ve1"]
+[ext_resource type="PackedScene" uid="uid://mie4tsv006u6" path="res://GUI/pause_menu.tscn" id="4_h7xul"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q8n0u"]
 texture = ExtResource("1_45t0v")
