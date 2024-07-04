@@ -12,13 +12,13 @@ const ship_bounceback = 0.25
 var stunned = false
 
 # Bullet parameters
-const bullet_scene = preload("res://entities/bullet.tscn")
+const bullet_scene = preload("res://entities/bullet/bullet.tscn")
 const bullet_speed = 2000
 const bullet_timeout = 0.2		# seconds
 var bullet_on_cooldown = false
 
 # Rope parameters
-var rope_piece = preload("res://entities/rope_piece.tscn")
+var rope_piece = preload("res://entities/rope_piece/rope_piece.tscn")
 var roped_object = null
 var rope_node = null
 var joints = []
